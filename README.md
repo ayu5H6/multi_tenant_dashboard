@@ -1,16 +1,113 @@
-# React + Vite
+# Multi-Tenant Sales Dashboard (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This project demonstrates a scalable frontend architecture for a multi-tenant SaaS
+application. Focus is on:
 
-Currently, two official plugins are available:
+- Tenant data isolation
+- Role-based access control (RBAC)
+- Modular feature-based structure
+- Frontend optimization awareness
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+No backend is used. Data and authentication are mocked.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
+- React
+- React Router
+- Context API
+- Lazy loading (React.lazy)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Architecture
+
+src/
+- app/        : Global logic (routing, auth, RBAC)
+- modules/    : Feature-based modules (leads, calls)
+- components/ : Reusable UI components
+- data/       : Mock tenant data
+
+This structure scales well as new modules or tenants are added.
+
+---
+
+## Multi-Tenancy
+
+Each user belongs to one tenant:
+- orgA
+- orgB
+
+Tenant switch updates visible data instantly.
+Data is isolated using tenant keys in mockData.
+
+---
+
+## Role Based Access Control
+
+Roles:
+- Admin → Full access
+- Agent → View only
+
+RBAC implemented using a reusable `Can` wrapper.
+
+Example:
+<Can action="EDIT">
+  <button>Edit</button>
+</Can>
+
+No role checks are hardcoded in UI components.
+
+---
+
+## Features Implemented
+
+Leads Module:
+- List leads
+- Filter by status
+- Admin-only edit control
+
+Calls Module:
+- List call logs
+- Tenant-specific data
+
+UI:
+- Tenant indicator
+- Role indicator
+- Loading state
+- Empty state
+
+---
+
+## Optimization
+
+Implemented:
+- Route-based lazy loading
+- Memoized filters using useMemo
+
+Design Decisions:
+- Context API instead of Redux (small app)
+- Feature-based code splitting
+- Derived state instead of stored state
+
+---
+
+## How to Run
+
+npm install  
+npm run dev
+
+---
+
+## Notes
+
+This is an architectural demo.
+UI polish and backend integration are intentionally skipped.
+
+Focus:
+- Scalability
+- Clean separation
+- SaaS patterns
+
+
